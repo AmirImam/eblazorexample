@@ -1,0 +1,18 @@
+﻿@page "/test"
+@using EBlazorExample.Data 
+@inject UserService Service;
+
+<div style="padding:30px;">
+    <DropDownList EnableFilter="true"
+                  TValue="int" TModel="User" Title="Items"
+                  ItemsSource="itemsSource" ValuePath="@nameof(User.EmpID)" TextPath="@nameof(User.EmpName)" />
+</div>
+
+@code {
+    List<User> itemsSource = new List<User>();
+    protected override async void OnInitialized()
+    {
+        itemsSource = (await Service.MockDataAsync()).ToList();
+        StateHasChanged();
+    }
+}

@@ -1,0 +1,84 @@
+﻿@page "/gridsystem"
+<Container IsFluid="true">
+    <GridRow>
+        <GridCol Col="12">
+            <h3>Container</h3>
+            <p>Just simple container that contains elements. Has only one property called <b>IsFluid</b></p>
+
+            <div class="alert alert-dark">
+                <code class="text">
+                    <BlazorTag TagName="Container" Properties="IsFluid=true;" />
+                </code>
+            </div>
+        </GridCol>
+
+        <GridCol Col="12">
+            <h3>Grid</h3>
+            <p>Containers need grid of course. This is a <a href="https://www.getbootstrap.com">bootstrap</a> but in Blazor way </p>
+
+            <div class="alert alert-dark">
+                <code class="text">
+                    <pre>
+<BlazorTag TagName="GridRow" KeepOpen="true" />
+    <BlazorTag TagName="GridCol" Properties="Col=1;" KeepOpen="true" />
+        <BlazorTag TagName="TextBox" />
+    <BlazorTag TagName="GridCol" IsClosing="true" />
+<BlazorTag TagName="GridRow" IsClosing="true" />
+
+
+
+</pre>
+
+                </code>
+            </div>
+        </GridCol>
+        <GridCol Col="4">
+            <p>And this is a grid example</p>
+        </GridCol>
+        <GridCol Col="12">
+            <GridRow>
+                @for (int i = 1; i < 13; i++)
+                {
+                    <GridCol Col="1">
+                        <div style="padding:0px;text-align:center;" class="alert alert-success">@($"Col=\"1\"")</div>
+                    </GridCol>
+                }
+
+                @for (int i = 1; i < 13; i += 2)
+                {
+                    <GridCol Col="2">
+                        <div style="padding:0px;text-align:center;" class="alert alert-success">@($"Col=\"2\"")</div>
+                    </GridCol>
+                }
+                @for (int i = 1; i < 13; i += 3)
+                {
+                    <GridCol Col="3">
+                        <div style="padding:0px;text-align:center;" class="alert alert-success">@($"Col=\"3\"")</div>
+                    </GridCol>
+                }
+
+                @for (int i = 1; i < 13; i += 4)
+                {
+                    <GridCol Col="4">
+                        <div style="padding:0px;text-align:center;" class="alert alert-success">@($"Col=\"4\"")</div>
+                    </GridCol>
+                }
+
+                <GridCol Col="6">
+                    <div style="padding:0px;text-align:center;" class="alert alert-success">@($"Col=\"6\"")</div>
+                </GridCol>
+                <GridCol Col="6">
+                    <div style="padding:0px;text-align:center;" class="alert alert-success">@($"Col=\"6\"")</div>
+                </GridCol>
+
+                <GridCol Col="12">
+                    <div style="padding:0px;text-align:center;" class="alert alert-success">@($"Col=\"12\"")</div>
+                </GridCol>
+            </GridRow>
+        </GridCol>
+    </GridRow>
+</Container>
+
+@code {
+
+}

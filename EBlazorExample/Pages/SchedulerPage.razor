@@ -1,0 +1,111 @@
+﻿@page "/scheduler"
+@inject DialogService DialogService; 
+<GridRow>
+    <GridCol Col="12">
+        <h3>Scheduler (Calendar)</h3>
+    </GridCol>
+    <GridCol Col="12">
+        <Scheduler ShowDayToolTip="false" Appointments="appointments"
+                   OnDayDoubleClicked="@CreateAppointment">
+            
+        </Scheduler>
+    </GridCol>
+    <GridCol Col="12" Style="height:100px;"></GridCol>
+    <GridCol Col="12">
+        <p>It is so easy to use the scheduler.</p>
+        <div class="alert alert-dark">
+            <code>
+                <pre>
+<BlazorTag TagName="Scheduler" Properties="Appointments=appointments;OnDayDoubleClicked=#at#CreateAppointment;"  />
+
+<RazorMark>@("@code{")</RazorMark>
+    <DataType>List</DataType>&lt;<DataType>Appointment</DataType>&gt; appointments = <Keyword>new</Keyword> <DataType>List</DataType>&lt;<DataType>Appointment</DataType>&gt;();
+    <Keyword>protected override async void </Keyword>OnAfterRender(<Keyword>bool</Keyword> firstRender)
+    {
+        appointments = <Keyword>await</Keyword> GetEventsAsync();
+        StateHasChanged();
+    }
+
+    <Keyword>private void</Keyword> CreateAppointment(<DataType>DayClickEventArgs</DataType> e)
+    {
+        <CodeComment>Open some dialog here to create an appointment</CodeComment>
+    }
+<RazorMark>}</RazorMark>
+</pre>
+            </code>
+        </div>
+    </GridCol>
+
+    <GridCol Col="5">
+        <h3>Scheduler events</h3>
+        <div class="list-group">
+            <a href="javascript:;" class="list-group-item list-group-item-action flex-column align-items-start">
+                <div class="d-flex w-100 justify-content-between">
+                    <h5 class="mb-1">OnDayClicked</h5>
+                    <small>Parameter <b style="color: #759de8;">@nameof(DayClickEventArgs)</b></small>
+                </div>
+                <p class="mb-1">Fired on day cell single clicked.</p>
+            </a>
+            <a href="javascript:;" class="list-group-item list-group-item-action flex-column align-items-start">
+                <div class="d-flex w-100 justify-content-between">
+                    <h5 class="mb-1">OnDayDoubleClicked</h5>
+                    <small>Parameter <b style="color: #759de8;">@nameof(DayClickEventArgs)</b></small>
+                </div>
+                <p class="mb-1">Fired on day cell double clicked.</p>
+            </a>
+            <a href="javascript:;" class="list-group-item list-group-item-action flex-column align-items-start">
+                <div class="d-flex w-100 justify-content-between">
+                    <h5 class="mb-1">OnAppointmentClicked</h5>
+                    <small>Parameter <b style="color: #759de8;">@nameof(AppointmentClickEventArgs)</b></small>
+                </div>
+                <p class="mb-1">Fired on appointment single clicked.</p>
+            </a>
+        </div>
+    </GridCol>
+</GridRow>
+
+@code {
+    List<Appointment> appointments = new List<Appointment>();
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+        if(firstRender == true)
+        {
+            for (int i = 0; i < 5; i++)
+            {
+                appointments.Add(new Appointment()
+                {
+                    Date = DateTime.Now.AddDays(1),
+                    Title = $"Event {i}-A in day {DateTime.Now.AddDays(1).ToString("ddd")}",
+
+                });
+            }
+
+            appointments.Add(new Appointment()
+            {
+                Date = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 13, 30, 0),
+                Title = "Event at 1:30"
+            });
+            StateHasChanged();
+        }
+    }
+
+    private void CreateAppointment(DayClickEventArgs e)
+    {
+        var dialog = DialogService.CreateDialog<AppointmentDialog>();
+        dialog.AddParameter("Date", e.Date);
+        //dialog.AddParameter("OnAddAppointment", AddNewAppointment);
+        dialog.OnClosed = (obj) =>
+        {
+            if (obj == null)
+            {
+                return;
+            }
+            Appointment appointment = (Appointment)obj;
+            appointments.Add(appointment);
+            StateHasChanged();
+        };
+        dialog.Show();
+    }
+
+}

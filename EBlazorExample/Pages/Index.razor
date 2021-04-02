@@ -1,0 +1,109 @@
+﻿@page "/"
+@inject IJSRuntime Js;  
+@inject DialogService DialogService;  
+
+<Container IsFluid="true">
+    <GridRow>
+        
+        <GridCol Col="12">
+            <div class="text-center" style="margin-top: 100px;">
+                <img style="width:100px;" src="/images/BlazorIcon.png" />
+                <h1>Hello, <ToolTip Title="Blazor developers">Blazor Developers!</ToolTip></h1>
+                <h2>Welcome to <b style="color:darkmagenta">EBlazor</b>  framework</h2>
+                <h3>EBlazor is a Blazor components that based on Bootstrap. You can find a lot of components that will make your work easier</h3>
+                <h4>And now let's <a href="/setup">start</a></h4>
+                <div class="alert alert-success">
+                    <p>Don't forget to use <a href="http://blazorcharts.edenadv.com/" target="_blank">Blazor CanvasJS charts</a> too</p>
+                </div>
+                    @*<TextBox Title="Busy text" IsBusy="@busy1" />*@
+            </div>
+        </GridCol>
+    </GridRow>
+</Container>
+
+
+@*<div style="background-color:red;width:200px;height:200px;">
+    <BusyPlaceholder IsRunning="busy2" />
+</div>
+<GridRow>
+    <GridCol Col="6">
+        <SwitchButton @bind-Value="busy1" Title="Busy 1" />
+        <Container IsBusy="@busy1">
+            <div style="height:300px;">
+                <h1>Column 1</h1>
+            </div>
+        </Container>
+    </GridCol>
+
+    <GridCol Col="6">
+        <SwitchButton @bind-Value="busy2" Title="Busy 2" IsBusy="busy1" />
+        <Container IsBusy="@busy2">
+            <div style="height:300px;">
+                <h1>Column 2</h1>
+            </div>
+            
+        </Container>
+    </GridCol>
+</GridRow>
+@code{
+    bool busy1 = false;
+    bool busy2 = false;
+}*@
+
+@code{
+    bool booleanValue = false;
+    string color = "red";
+    string ccolor = "blue";
+    string rand = string.Empty;
+    DateTime? currentDate;// = DateTime.Now;
+    string hijriDate = string.Empty;
+    TimeSpan time;
+    TimeSpan? nullableTime;
+    static System.Globalization.CultureInfo HijriCulture
+    => System.Globalization.CultureInfo.CreateSpecificCulture("ar-SA");
+
+    protected override void OnInitialized()
+    {
+        time = DateTime.Now.TimeOfDay;
+        // Random random = new Random();
+        hijriDate = DateTime.Now.ToString("yyyy-MMMM-dd", HijriCulture);
+        //for (int i = 0; i < 100; i++)
+        //{
+        //    usersList.Add(new User()
+        //    {
+        //        Id = i + 1,
+        //        Name = $"{Names[random.Next(0, Names.Count - 1)]} {Names[random.Next(0, Names.Count - 1)]}"
+        //    });
+        //}
+        //selectedUsers = usersList.Take(2).ToList();
+
+    }
+
+    //List<string> Names = new() { "Amir", "Ahmad", "Mohamed", "Ibrahim", "Alaa", "Saied", "Mostafa" };
+    //List<User> usersList = new();
+    //IEnumerable<User> selectedUsers = new List<User>();
+    //int selectedUserId = 1;
+    TextBox textBoxRef;
+    class User
+    {
+        public int Id { get; set; }
+        [System.ComponentModel.DataAnnotations.Required(ErrorMessage = "User name is reqired")]
+        public string Name { get; set; }
+        [System.ComponentModel.DataAnnotations.Range(25, 60)]
+        public int Age { get; set; }
+        [System.ComponentModel.DataAnnotations.Range(typeof(DateTime), "1/2/2004", "3/4/2004",
+         ErrorMessage = "Value for {0} must be between {1} and {2}")]
+        public DateTime BirthDate { get; set; }
+        [System.ComponentModel.DataAnnotations.Required]
+        public string HijriBirthDate { get; set; }
+        [System.ComponentModel.DataAnnotations.Range(1, 1000)]
+        public int JobID { get; set; }
+        [System.ComponentModel.DataAnnotations.Range(typeof(TimeSpan),
+            "10:00:00",
+            "11:00:00")]
+        public TimeSpan ShowTime { get; set; }
+    }
+
+    User model = new User();
+
+}

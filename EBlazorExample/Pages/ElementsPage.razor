@@ -1,0 +1,239 @@
+﻿@page "/elements" 
+@inject ToastService Toaster; 
+@inject DialogService Dialog;  
+@inject IJSRuntime Js;
+<Container IsFluid="true">
+    <GridRow>
+        
+        <GridCol Col="12">
+            <h3>ToolTip</h3>
+            <p>Just hover on marked blue text to show tooltips</p>
+            
+            <p>
+                It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. 
+                The point of using <ToolTip Title="It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout">
+                    '<span class="text-primary">Lorem Ipsum</span>'
+                </ToolTip> is that it has a more-or-less normal distribution of letters, as opposed to using 
+                'Content here, content here', making it look like readable English. 
+                <ToolTip Title="Some tooltip here">
+                    <span class="text-primary">Many desktop publishing packages</span>
+                </ToolTip>
+                and web page editors now use Lorem Ipsum as their default model text, 
+                and a search for 
+                <ToolTip Title="This is lorem ipsum">
+                    '<span class="text-primary">lorem ipsum</span>'
+                </ToolTip>
+                
+                will uncover many web sites still in their infancy. 
+                Various versions have evolved over the years, 
+                sometimes by accident, sometimes on purpose (injected humour and the like).
+
+
+            </p>
+        </GridCol>
+
+       
+
+        <GridCol Col="12">
+            <p>Coding will be like this</p>
+            <div class="alert alert-dark">
+                <code class="text">
+                    <pre>
+<BlazorTag TagName="ToolTip" Properties="Title=Tooltip title;" KeepOpen="true" />
+    @("<span class=\"text-primary\">some text...</Span>")
+<BlazorTag TagName="ToolTip" IsClosing="true" />
+</pre>
+                </code>
+            </div>
+        </GridCol>
+
+        
+                
+    </GridRow>
+
+    <GridRow>
+        <GridCol Col="12">
+            <h3>Toast</h3>
+            <p>Just simple way to create toast and show it</p>
+            <NumericBox @bind-Value="toastDuration" Title="Toast duration" />
+            <button @onclick="ShowToast" class="btn btn-primary">Click to show toast</button>
+        </GridCol>
+        <GridCol Col="12">
+            <div class="alert alert-dark">
+                <code class="text">
+                    <pre>
+<RazorMark>@("@inject")</RazorMark> <DataType>ToastService</DataType> Toaster<RazorMark>;</RazorMark>
+    <span>@("<button @onclick=ShowToast class='btn btn-primary'>Click to show toast</button>")</span>
+<RazorMark>@("@code {")</RazorMark>
+     <Keyword>private async void</Keyword> ShowToast()
+     {
+         <Keyword>var</Keyword> toast = <Keyword>await</Keyword> Toaster.CreateToastAsync();
+         toast.Message = <StringQuotation>"Just simple toast"</StringQuotation>;
+         toast.Title = <StringQuotation>"EBlazor Toast"</StringQuotation>;
+         toast.ToastType = <DataType>ToastTypes</DataType>.Info;
+         toast.Options.Position = <DataType>ToastPositions</DataType>.TopRight;
+         <CodeComment>Optional you can set custom closing animation keyframes</CodeComment>
+         toast.ClosingKeyFrames = <StringQuotation>"close-toast-animation"</StringQuotation>;
+         <CodeComment>OnClick event fired when toast clicked. It takes parameter ToastClickEventArgs</CodeComment>
+         toast.OnClick = (e)=> { <CodeComment>Do something with e</CodeComment> };
+         toast.Show(); 
+     }
+<RazorMark>@("}")</RazorMark>
+</pre>
+                </code>
+            </div>
+        </GridCol>
+    </GridRow>
+
+    <GridRow>
+        <GridCol Col="12">
+            <h3>Dialog</h3>
+            <p>Dialog box for showing components in dialog and retrieve actions from them</p>
+            <button @onclick="ShowDialog" class="btn btn-primary">Click to show dialog</button>
+        </GridCol>
+        <GridCol Col="12">
+            <div class="alert alert-dark">
+                <code class="text">
+                    <pre>
+<RazorMark>@("@inject")</RazorMark> <DataType>DialogService</DataType> Dialog<RazorMark>;</RazorMark>
+<RazorMark>@("@inject")</RazorMark> <DataType>IJSRuntime</DataType> Js<RazorMark>;</RazorMark>
+                    <span>@("<button @onclick=ShowDialog class='btn btn-primary'>Click to show dialog</button>")</span>
+<RazorMark>@("@code {")</RazorMark>
+                    <Keyword>private void</Keyword> ShowDialog()
+           {
+                    <Keyword>var </Keyword> dialog = Dialog.CreateDialog&lt;<DataType>Counter</DataType>&gt;();
+              dialog.Title = <StringQuotation>"Counter dialog"</StringQuotation>;
+              dialog.ShowFooter = <Keyword>true</Keyword>;
+              dialog.AddParameter(<StringQuotation>"NumberStarter"</StringQuotation>, 100);
+              dialog.FooterConfirmOnClicked = () =>
+              {
+                  Js.InvokeVoidAsync(<StringQuotation>"alert"</StringQuotation>, <StringQuotation>"You just confirmed the dialog"</StringQuotation>);
+              };
+              dialog.OnClosed = (str) =>
+              {
+                  Js.InvokeVoidAsync("alert", str);
+              };
+              dialog.Show();
+           }
+<RazorMark>@("}")</RazorMark>
+</pre>
+                </code>
+            </div>
+
+            <p><b>Note:</b> to use <b>OnClosed</b> you need to add parameter <b>DialogRef</b> to the dialog component and use <b>Close</b> function and send any type of values, like this</p>
+            <div class="alert alert-dark">
+                <code class="text">
+                    <pre>
+[<DataType>Parameter</DataType>]
+<Keyword>public </Keyword><DataType>DialogReference</DataType> DialogRef {<Keyword>get</Keyword>; <Keyword>set</Keyword>;}
+<RazorMark>@("@code{")</RazorMark>
+        <Keyword>private void</Keyword> CloseCurrentDialog()
+        {
+            DialogRef.Close(<StringQuotation>"Counter dialog closed"</StringQuotation>);
+        }
+<RazorMark>}</RazorMark>
+</pre>
+                </code>
+            </div>
+        </GridCol>
+
+    </GridRow>
+
+
+    <GridRow>
+        <GridCol Col="12">
+            <h3>Cards</h3>
+            <p>Some templated cards with cool design</p>
+        </GridCol>
+        <GridCol Col="4">
+            <Card Title="Jerusalem" Style="width:100%;" Text="It is the largest city in Palestine in terms of area, population, and the most important islamic and economic importance. It is known by other names in the Arabic language, such as: Bayt Al-Maqdis, Al-Quds Al-Sharif, the first of the two Qiblahs "
+                  ShowImage="true" ImageErrorUrl="/images/jerusalem.jpg"
+                  ImageUrl="/images/jerusalem.jpg">
+                <HeaderTemplate>
+                    <h3>Areas of Palestine</h3>
+                </HeaderTemplate>
+
+                <ActionsTemplate>
+                    <ActionLink>Read more</ActionLink>
+                </ActionsTemplate>
+
+                <FooterTemplate>
+                    <small class="text-muted">Information</small>
+                </FooterTemplate>
+            </Card>
+
+        </GridCol>
+        <GridCol Col="12" Style="height:50px;">
+            
+        </GridCol>
+        <GridCol Col="12">
+            <p>Coding will be like this</p>
+        </GridCol>
+        <GridCol Col="12">
+            <CodeHolder>
+                <pre>
+<BlazorTag TagName="Card" Properties="Title=Some title;Text=Some text...;ShowImage=true;ImageUrl=#at#url;ImageErrorUrl=#at#errorUrl;" KeepOpen="true" />
+                <BlazorTag TagName="HeaderTemplate" KeepOpen="true" />
+        @("<h3>Header</h3>")
+                <BlazorTag TagName="HeaderTemplate" IsClosing="true" />
+    
+                <BlazorTag TagName="BodyTemplate" KeepOpen="true" />
+        @("<div>Body content...</div>")
+                <BlazorTag TagName="BodyTemplate" IsClosing="true" />
+
+                <BlazorTag TagName="ActionsTemplate" KeepOpen="true" />
+                <BlazorTag TagName="ActionLink" KeepOpen="true" />
+            @("Read omre")
+                <BlazorTag TagName="ActionLink" IsClosing="true" />
+                <BlazorTag TagName="ActionsTemplate" IsClosing="true" />
+
+                <BlazorTag TagName="FooterTemplate" KeepOpen="true" />
+        @("<small>Footer content</small>")
+                <BlazorTag TagName="FooterTemplate" IsClosing="true" />
+<BlazorTag TagName="Card" IsClosing="true" />
+</pre>
+
+            </CodeHolder>
+        </GridCol>
+    </GridRow>
+</Container>
+
+
+@code {
+    int value = 100;
+    int toastValue = 0;
+    double toastDuration = 5;
+    private async void ShowToast()
+    {
+        toastValue++;
+        var toast = await Toaster.CreateToastAsync();
+        toast.Message = "Just simple toast";
+        toast.Title = $"EBlazor Toast {toastValue}";
+        toast.ToastType = ToastTypes.Error;
+        toast.ProgressBar = true;
+        toast.ClosingDuration = toastDuration * 1000;// 10000;
+        toast.Position = ToastPositions.TopRight;
+        toast.OnClick = (e) =>
+        {
+            Js.InvokeVoidAsync("alert", e.Toast.Title);
+        };
+        toast.Show();
+    }
+
+    private void ShowDialog()
+    {
+        var dialog = Dialog.CreateDialog<Counter>();
+        dialog.Title = "Counter dialog";
+        dialog.ShowFooter = true;
+        dialog.AddParameter("NumberStarter", value);
+        dialog.OnClosed = (str) =>
+        {
+            Js.InvokeVoidAsync("alert", str);
+        };
+        dialog.FooterConfirmOnClicked = () =>
+        {
+            Js.InvokeVoidAsync("alert", "You just confirmed the dialog");
+        };
+        dialog.Show();
+    }
+}

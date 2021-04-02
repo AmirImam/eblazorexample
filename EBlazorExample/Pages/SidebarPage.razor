@@ -1,0 +1,38 @@
+﻿@page "/sidebar" 
+
+<Container IsFluid="true">
+    <GridRow>
+        <GridCol Col="12">
+            <h3>Sidebar</h3>
+            <p>You won't find implementation of sidebar here, because it has been implemented in this site. But you can find the coding of it here</p>
+        </GridCol>
+
+        <GridCol Col="12">
+            <CodeHolder>
+                <pre>
+<BlazorTag TagName="LayoutContainer" Properties="ToggleState=someBooleanValue;DrawerClass=someCssClass;NavbarClass=navbar-light bg-light;" KeepOpen="true" />
+    <BlazorTag TagName="ChildContent" KeepOpen="true" />
+        @("@Body")
+    <BlazorTag TagName="ChildContent" IsClosing="true" />
+    
+    <BlazorTag TagName="DrawerHeaderContent" KeepOpen="true" />
+        @("<h1>Some title</h1>")
+    <BlazorTag TagName="DrawerHeaderContent" IsClosing="true" />
+
+    <BlazorTag TagName="DrawerContent" KeepOpen="true" />
+        <BlazorTag TagName="DrawerMenu" Properties="IconClass=fa fa-home;Title=Home;HRef=/" />
+        <BlazorTag TagName="DrawerMenu" KeepOpen="true" />
+            <BlazorTag TagName="DrawerMenuItem" Properties="IconClass=fa fa-home;Title=Home;HRef=/" />
+        <BlazorTag TagName="DrawerMenu" IsClosing="true" />
+    <BlazorTag TagName="DrawerContent" IsClosing="true" />
+
+    <BlazorTag TagName="NavbarContent" KeepOpen="true" />
+        You can use any html with suitable css, and you can use <b>NavMenu</b> to create dropdown menus in horizontal <b>Navbar</b>
+    <BlazorTag TagName="NavbarContent" IsClosing="true" />
+<BlazorTag TagName="LayoutContainer" IsClosing="true" />
+</pre>
+            </CodeHolder>
+        </GridCol>
+    </GridRow>
+</Container>
+

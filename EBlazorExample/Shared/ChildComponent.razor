@@ -1,0 +1,15 @@
+﻿<CascadingValue Value="Value">
+    <select @bind="Size">
+        <option value="5">5</option>
+        <option value="10">10</option>
+        <option value="15">15</option>
+        <option value="25">25</option>
+    </select>
+    
+</CascadingValue>
+
+@code {
+    [Parameter]
+    public int Size { get; set; }
+    [CascadingParameter]public string Value { get; set; }
+}

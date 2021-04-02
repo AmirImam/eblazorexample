@@ -1,0 +1,45 @@
+﻿@page "/slider"
+<Container IsFluid="true">
+    <GridRow>
+        <GridCol Col="12">
+            <h3>Sliders</h3>
+            <p>Slider with any count of images and styles</p>
+        </GridCol>
+        <GridCol Col="12">
+            <h3>Zoom style</h3>
+        </GridCol>
+        <GridCol Col="1"></GridCol>
+        <GridCol Col="10">
+            <Slider SliderStyle="SliderStyles.Zoom" ImagesList="@(new string[]{"images/1.jpg","images/2.jpg","images/3.jpg","images/4.jpg","images/5.jpg"})" />
+        </GridCol>
+
+        <GridCol Col="12">
+            <h3>Fade style</h3>
+        </GridCol>
+        <GridCol Col="1"></GridCol>
+        <GridCol Col="10">
+            <Slider SliderStyle="SliderStyles.Fading" ImagesList="@(new string[]{"images/1.jpg","images/2.jpg","images/3.jpg","images/4.jpg","images/5.jpg"})" />
+        </GridCol>
+
+        <GridCol Col="12">
+            <h3>Sliding style</h3>
+        </GridCol>
+        <GridCol Col="1"></GridCol>
+        <GridCol Col="10">
+            <Slider SliderStyle="SliderStyles.Sliding" ImagesList="@(new string[]{"images/1.jpg","images/2.jpg","images/3.jpg","images/4.jpg","images/5.jpg"})" />
+        </GridCol>
+    </GridRow>
+
+    <GridRow>
+        <GridCol Col="12">
+            <p>The code of this example is like this</p>
+            <div class="alert alert-dark">
+                <code class="text">
+                    <pre>
+    <BlazorTag TagName="Slider" Properties="ImagesList=new string[]{#dc#1.jpg#dc#,#dc#2.jpg#dc#,#dc#3.jpg#dc#};SliderStyle=SliderStyles.Sliding" />
+</pre>
+                    </code>
+                </div>
+        </GridCol>
+    </GridRow>
+</Container>

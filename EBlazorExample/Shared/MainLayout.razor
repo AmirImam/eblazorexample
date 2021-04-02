@@ -1,0 +1,90 @@
+﻿@inherits LayoutComponentBase
+@inject IJSRuntime Js;  
+<Container IsBusy="false" IsFluid="true" Style="padding:0px;">
+    @*<div class="page">
+        <div class="sidebar">
+            <NavMenu />
+        </div>
+
+        <div class="main">
+            <div class="top-row px-4">
+                <a href="https://docs.microsoft.com/aspnet/" target="_blank">About</a>
+            </div>
+
+            <div class="content px-4">
+                @Body
+            </div>
+        </div>
+    </div>*@
+    <style>
+        .dd {
+            background-color: #eaf0f7 !important;
+            color: black !important;
+        }
+
+
+            .dd .sidebar-header {
+                background: #eaf0f7 !important;
+            }
+
+       /* .dd a:hover{
+            background-color:#868586 !important;
+            color:white;
+        }*/
+            .dd ul li a:hover {
+                background-color: #868586 !important;
+                color: white !important;
+            }
+    </style>
+    <LayoutContainer ToggleState="sideBarToggleState" DrawerClass="dd" NavbarClass="navbar-light bg-light" FixedNavbar="false">
+        <ChildContent>
+            <div style="padding:20px">
+                @Body
+            </div>
+        </ChildContent>
+        <DrawerHeaderContent>
+            <div class="sidebar-header" style="background-color:#5c2992">
+                <h3>EBlazor</h3>
+            </div>
+        </DrawerHeaderContent>
+        <DrawerContent>
+            <Sidebar />
+        </DrawerContent>
+
+        <NavbarContent>
+
+            <a class="navbar-brand" href="#">
+                <img src="/images/BlazorIcon.png" width="30" height="30" class="d-inline-block align-top" alt="">
+                <span class="menu-collapsed">EBlazor</span>
+            </a>
+            <button style="display:block;" @onclick="ToggleSidebar" class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNavDropdown">
+                <ul class="navbar-nav ml-auto" style="padding-right:30px;">
+                    <EBlazor.Containers.NavMenu Title="Menu">
+                        <NavMenuItem Title="About" HRef="http://www.edenadv.com" Target="_blank" />
+                        <NavMenuItem Title="Item 1" HRef="/" />
+                        <NavMenuItem Title="Item 2" HRef="/" />
+                    </EBlazor.Containers.NavMenu>
+                    <EBlazor.Containers.NavMenu Title="Home" HRef="/" />
+                    <EBlazor.Containers.NavMenu Title="Clickable" OnClick="@(e=> {
+                                                                                 Js.InvokeVoidAsync("alert", "Menu clicked");
+                                                                             })"  />
+
+
+                </ul>
+            </div>
+        </NavbarContent>
+    </LayoutContainer>
+</Container>
+
+
+@code{
+    bool sideBarToggleState = true;
+    private void ToggleSidebar()
+    {
+        sideBarToggleState = !sideBarToggleState;
+        StateHasChanged();
+    }
+}

@@ -1,0 +1,238 @@
+﻿@page "/inputs" 
+@using EBlazorExample.Data
+@inject UserService UserService;
+<Container IsFluid="true">
+    <GridRow>
+        @*<GridCol Col="12">
+            <p>All types of bindable inputs inputs that you can use</p>
+        </GridCol>*@
+        <GridCol Col="4">
+            <h3>Textbox</h3>
+            <p>Simple input with included title</p>
+            <TextBox @bind-Value="textBox" Title="Text box" Type="TextBoxTypes.Text" Placeholder="Text box placeholder" />
+            <span>@textBox</span>
+        </GridCol>
+        <GridCol Col="12">
+            <div class="alert alert-dark">
+                <code class="text">
+                    <BlazorTag TagName="TextBox" Properties="@($"Title=Text box;Type=TextBoxTypes.Text;PlaceHolder=Text box placeholder;@bind-Value=@text")" />
+                </code>
+            </div>
+        </GridCol>
+
+        <GridCol Col="4">
+            <h3>TextBox Area</h3>
+            <p>Same TextBox with textarea renderer</p>
+            <TextBox IsTextArea="true" @bind-Value="textBox" Title="Text box" Type="TextBoxTypes.Text" Placeholder="Text box placeholder" />
+            <span>@textBox</span>
+        </GridCol>
+        <GridCol Col="12">
+            <div class="alert alert-dark">
+                <code class="text">
+                    <BlazorTag TagName="TextBox" Properties="@($"IsTextArea=true;Title=Text box;Type=TextBoxTypes.Text;PlaceHolder=Text box placeholder;@bind-Value=@text")" />
+                </code>
+            </div>
+        </GridCol>
+
+
+        <GridCol Col="4">
+            <h3>NumericBox</h3>
+            <NumericBox @bind-Value="number" Title="Numeric box" Placeholder="Numeric box placeholder" />
+            <span>@number</span>
+        </GridCol>
+        <GridCol Col="12">
+            <div class="alert alert-dark">
+                <code class="text">
+                    <BlazorTag TagName="NumericBox" Properties="@($"Title=Numeric box;Placeholder=Numeric box placeholder;")" />
+                </code>
+            </div>
+        </GridCol>
+
+        <GridCol Col="4">
+            <h3>DatePicker</h3>
+            <p>Bind to DateTime</p>
+            <DatePicker @bind-Value="datePicker" TValue="DateTime" Title="Date picker" />
+            <span>@datePicker</span>
+        </GridCol>
+        <GridCol Col="12">
+
+            <div class="alert alert-dark">
+                <code class="text">
+                    <BlazorTag TagName="DatePicker" Properties="Title=Text box;TValue=DateTime;" />
+                </code>
+            </div>
+        </GridCol>
+
+        <GridCol Col="4">
+            <h3>HijriDatePicker</h3>
+            <p>Bind to string</p>
+            <HijriDatePicker @bind-Value="hijriDate" Title="Hijri date picker" Format="yyyy-MMMM-dd" />
+            <span>@hijriDate</span>
+        </GridCol>
+        <GridCol Col="12">
+            <div class="alert alert-dark">
+                <code class="text">
+                    <BlazorTag TagName="HijriDatePicker" Properties="Title=Hijri date picker;Format=yyyy-MMMM-dd" />
+                </code>
+            </div>
+        </GridCol>
+
+        <GridCol Col="4">
+            <h3>SwitchButton</h3>
+            <SwitchButton @bind-Value="state" Title="Switch button" />
+            <span>@state</span>
+        </GridCol>
+        <GridCol Col="12">
+            <div class="alert alert-dark">
+                <code class="text">
+                    <BlazorTag TagName="SwitchButton" Properties="Title=Switch button;" />
+                </code>
+            </div>
+        </GridCol>
+
+        <GridCol Col="4">
+            <h3>DropDownList</h3>
+            <DropDownList SelectedItemStyle="background-color:#e8d7ff;font-weight:bolder;"
+                          EnableFilter="true" @bind-Value="selectedValue"
+                          TValue="int" TModel="User" Title="Items"
+                          ItemsSource="itemsSource" ValuePath="@nameof(User.EmpID)" TextPath="@nameof(User.EmpName)" />
+
+            @if (itemsSource.Count > 0)
+            {
+                <span>@itemsSource.FirstOrDefault(it => it.EmpID == selectedValue).EmpName</span>
+            }
+        </GridCol>
+        <GridCol Col="12">
+            <div class="alert alert-dark">
+                <code class="text">
+                    <BlazorTag TagName="DropDownList" Properties="@($"SelectedItemStyle=background-color:yellow#simc#font-weight:bolder#simc#;EnableFilter=true;TValue=int;TModel=Model;Title=My items;ItemsSource=itemsSource;ValuePath=Id;TextPath=Name;")" />
+                </code>
+
+            </div>
+        </GridCol>
+
+        <GridCol Col="4">
+            <h3>DropDownList (Multiple)</h3>
+
+            <DropDownList Multiple="true" @bind-Value="selectedValue" EnableFilter="true" TValue="int" TModel="User" Title="Items" ItemsSource="itemsSource" ValuePath="EmpID" TextPath="EmpName" />
+            @*@if (itemsSource.Count > 0)
+            {
+                <span>@itemsSource.FirstOrDefault(it => it.EmpID == selectedValue).EmpName</span>
+            }*@
+        </GridCol>
+        <GridCol Col="12">
+            <div class="alert alert-dark">
+                <code class="text">
+                    <BlazorTag TagName="DropDownList" Properties="@($"Multiple=true;SelectedItemStyle=background-color:yellow#simc#font-weight:bolder#simc#;EnableFilter=true;TValue=int;TModel=Model;Title=My items;ItemsSource=itemsSource;ValuePath=Id;TextPath=Name;")" />
+                </code>
+
+            </div>
+        </GridCol>
+
+        <GridCol Col="9">
+            <h3>DropDownList with ItemTemplate</h3>
+
+        </GridCol>
+        <GridCol Col="4">
+            <DropDownList SelectedItemStyle="background-color:#e8d7ff;font-weight:bolder;" @bind-Value="selectedValue" EnableFilter="true" TValue="int" TModel="User" Title="Items" ItemsSource="itemsSource" ValuePath="EmpID" TextPath="EmpName">
+                <ItemTemplate>
+                    @{
+                        string style = string.Empty;
+                        int index = itemsSource.IndexOf(context.CurrentItem);
+                        string hoverStyle = string.Empty;
+                        if (context.CurrentItem.EmpID == selectedValue)
+                        {
+                            style = "background-color:#f0e3f3";
+                        }
+                        else
+                        {
+                            style = "background-color:transparent";
+                        }
+
+                        if (index == context.HoverIndex)
+                        {
+                            hoverStyle = "background-color:#ecd2c3";
+                        }
+                        else
+                        {
+                            hoverStyle = "background-color:transparent";
+                        }
+                    }
+                    <div style="@($"{hoverStyle};cursor:pointer;")">
+                        <div class="d-flex" style="@style">
+                            <img src="https://picsum.photos/50" style="width:50px;height:50px;" />
+                            <div class="d-block">
+                                <p>@context.CurrentItem.EmpName</p>
+                            </div>
+                        </div>
+                    </div>
+
+                </ItemTemplate>
+            </DropDownList>
+            @*@if (itemsSource.Count > 0)
+            {
+                <span>@itemsSource.FirstOrDefault(it => it.EmpID == selectedValue).EmpName</span>
+            }*@
+
+        </GridCol>
+        <GridCol Col="12">
+            <div class="alert alert-dark">
+                <code class="text">
+                    <pre>
+<BlazorTag KeepOpen="true" TagName="DropDownList" Properties="@($"EnableFilter=true;TValue=int;TModel=Model;Title=My items;ItemsSource=itemsSource;ValuePath=Id;TextPath=Name;")" /> <br />
+                    <BlazorTag KeepOpen="true" TagName="ItemTemplate" /><br />
+        //Put here any html you wand and you can use <b>context</b> to get current item
+                    <Keyword>var </Keyword>item = context.CurrentItem;
+                    <BlazorTag IsClosing="true" TagName="ItemTemplate" /><br />
+<BlazorTag IsClosing="true" TagName="DropDownList" /><br />
+</pre>
+
+                </code>
+
+            </div>
+            <p>And to initialze DropDownList:</p>
+            <div class="alert alert-dark">
+                <code class="text">
+                    <pre>
+<RazorMark>@("@code{")</RazorMark>
+                    <Keyword>class</Keyword> <b style="color:cornflowerblue">User</b>
+            {
+                    <Keyword>public int</Keyword> Id {<Keyword>get</Keyword>; <Keyword>set</Keyword>;}
+                    <Keyword>public string</Keyword> Name {<Keyword>get</Keyword>; <Keyword>set</Keyword>;}
+            }
+                    <span style="color:cornflowerblue">IList</span> &lt;<b style="color:cornflowerblue">Model</b>&gt; itemsSource = <Keyword>new </Keyword> <span style="color:cornflowerblue">List</span> &lt;<b style="color:cornflowerblue">Model</b>&gt;()
+              {
+                    itemsSource = someService.GetItems();
+              };
+<RazorMark>@("}")</RazorMark>
+</pre>
+
+                </code>
+            </div>
+
+        </GridCol>
+    </GridRow>
+</Container>
+
+@code {
+    string textBox = string.Empty;
+    double number = 0;
+    DateTime datePicker = DateTime.Now;
+    string hijriDate = "1442-07-22";
+    bool state = false;
+    int selectedValue = 3;
+    List<User> itemsSource = new List<User>();
+
+    protected override async void OnInitialized()
+    {
+        datePicker = datePicker.AddDays(2);
+        hijriDate = datePicker.ToString("yyyy-MMMM-dd", System.Globalization.CultureInfo.CreateSpecificCulture("ar-SA"));
+        itemsSource = (await UserService.MockDataAsync()).ToList();
+        selectedValue = itemsSource.First().EmpID;
+
+        StateHasChanged();
+    }
+
+
+
+}

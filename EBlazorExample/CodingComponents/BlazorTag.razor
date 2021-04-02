@@ -1,0 +1,68 @@
+﻿
+@if (ChildContent == null)
+{
+    if (IsClosing == false)
+    {
+        <span style="font-weight:bold;color:darkmagenta;">&lt;@TagName</span>@((MarkupString)propertiesResult)
+        <span style="font-weight:bold;color:darkmagenta;">
+            @if(KeepOpen == false)
+            {
+                <i>/</i><span>&gt;</span>
+            }
+            else
+            {
+                <span>&gt;</span>
+            }
+
+        </span>
+    }
+    else
+    {
+        @*</GridCol>*@
+        <span style="font-weight:bold;color:darkmagenta;">&lt;/@TagName</span><span style="font-weight:bold;color:darkmagenta;">&gt;</span>
+    }
+}
+else
+{
+    <span style="font-weight:bold;color:darkmagenta;">@ChildContent</span>
+}
+@code {
+    [Parameter]
+    public RenderFragment ChildContent { get; set; }
+    [Parameter]
+    public string TagName { get; set; }
+    [Parameter]
+    public string Properties { get; set; }
+    [Parameter]
+    public bool KeepOpen { get; set; }
+    [Parameter]
+    public bool IsClosing { get; set; }
+    string propertiesResult = string.Empty;
+    protected override void OnAfterRender(bool firstRender)
+    {
+        if (firstRender == true)
+        {
+            if (!String.IsNullOrEmpty(Properties))
+            {
+                List<string> attrs = Properties.Split(';').ToList();
+                foreach (string att in attrs)
+                {
+                    if (String.IsNullOrEmpty(att))
+                    {
+                        continue;
+                    }
+                    string key = $"<span style='font-weight:bold;color:darkmagenta;'>{att.Split("=")[0]}</span>";
+                    string value = att.Split("=")[1];
+
+                    propertiesResult += $" {key}=\"{value}\""
+                        .Replace("#at#","@")
+                        .Replace("@", "<span style='background-color:yellow;'>@</span>")
+                        .Replace("#eq#", "=")
+                        .Replace("#simc#",";")
+                        .Replace("#dc#","\"");
+                }
+                StateHasChanged();
+            }
+        }
+    }
+}

@@ -1,0 +1,229 @@
+﻿@page "/datasets"
+@using EBlazorExample.Data
+@inject IJSRuntime Js;
+@inject UserService Service;
+
+<Container IsFluid="true">
+    <GridRow>
+        <GridCol Col="12" IsBusy="busy">
+            <p>You can use direct column by setting field, or use <b>RowTemplate</b> and do whatever you want</p>
+            @if (Data != null)
+            {
+            <DataTable TModel="User" EnableFiltering="true" PageSize="10" EnablePaging="true"
+                        Items="Data">
+                <DataTableColumn TModel="User" Field="@(f => f.EmpID)" Title="#">
+                    <RowTemplate>
+                        <span class='text-primary'>@(context.EmpID)</span>
+                    </RowTemplate>
+                </DataTableColumn>
+                <DataTableColumn EnableSorting="true" TModel="User" Field="@(f => f.EmpName)" Title="Name" />
+                <DataTableColumn EnableSorting="true" TModel="User" Field="@(f => f.UserNumber)" Title="Number" />
+                <DataTableColumn EnableSorting="true" TModel="User" Field="@(f => f.Mobile)" Title="Mobile" />
+                <DataTableColumn EnableSorting="true" TModel="User" Field="@(f => f.CityName)" Title="City" />
+                <DataTableColumn TModel="User">
+                    <RowTemplate>
+                        <button @onclick="@(()=> {
+                                                Js.InvokeVoidAsync("alert", context.EmpName);
+
+                                            })">Show name</button>
+                    </RowTemplate>
+                </DataTableColumn>
+            </DataTable>
+            }
+            <p>
+                Note that you can use auto paging and that means loading all data and dividing them in pages on rendering.
+                And manual paging and that allows you to get divided data from your source on page navigation.
+                If you set <b>OnPageChanged</b>, sou you force DataTable to use manual paging.
+            </p>
+            
+            <p>The code of this example is like this</p>
+            <div class="alert alert-dark">
+                <code class="text">
+                    <pre>
+<BlazorTag TagName="DataTable" KeepOpen="true" Properties="Items=Data;EnableFiltering=true;EnablePaging=true;PageSize=5;PageMenuItems=new int[] { 5,10,50 };" />
+                    <BlazorTag TagName="DataTableColumn" Properties="@($"TModel=Product;Field=@(f#eq#> f.Id);Title=#")" KeepOpen="true" />
+                    <BlazorTag TagName="RowTemplate" KeepOpen="true" />
+                        @((MarkupString)"&lt;span class='text-primary'&gt;@(context.Id)&lt;/span&gt;")
+                    <BlazorTag TagName="RowTemplate" />
+                    <BlazorTag TagName="DataTableColumn" IsClosing="true" />
+                    <BlazorTag TagName="DataTableColumn" Properties="@($"TModel=User;EnableSorting=true;Field=@(f#eq#> f.EmployeeName);Title=Product Name")" />
+                    <BlazorTag TagName="DataTableColumn" Properties="@($"TModel=User;EnableSorting=true;Field=@(f#eq#> f.EmployeeNumber);Title=Number")" />
+                    <BlazorTag TagName="DataTableColumn" Properties="@($"TModel=User;EnableSorting=true;Field=@(f#eq#> f.Mobile);Title=Mobile")" />
+                    <BlazorTag TagName="DataTableColumn" Properties="@($"TModel=User;EnableSorting=true;Field=@(f#eq#> f.CityName);Title=City")" />
+<BlazorTag TagName="DataTable" IsClosing="true" />
+
+
+
+<RazorMark>@("@code{")</RazorMark>
+           <Keyword>class</Keyword> <DataType>Employee</DataType> 
+          {
+             <Keyword>public int</Keyword> Id { <Keyword>get</Keyword>; <Keyword>set</Keyword>;}
+             <Keyword>public string</Keyword> EmployeeName { <Keyword>get</Keyword>; <Keyword>set</Keyword>;}
+             <Keyword>public string</Keyword> EmployeeNumber { <Keyword>get</Keyword>; <Keyword>set</Keyword>;}
+             <Keyword>public double</Keyword> Mobile { <Keyword>get</Keyword>; <Keyword>set</Keyword>;}
+             <Keyword>public string</Keyword> CityName { <Keyword>get</Keyword>; <Keyword>set</Keyword>;}
+          }
+          
+        <DataType>List</DataType>&lt;<DataType>Employee</DataType>&gt; Data => <span style="color:#2d652d">//Getting products data from any source</span>
+<RazorMark>}</RazorMark>
+</pre>
+                </code>
+            </div>
+        </GridCol>
+    </GridRow>
+
+    <GridRow>
+        <GridCol Col="12">
+            <h3>TreeView</h3>
+            <p>Dynamic tree view in hierarchy order. There are two ways to work with this tree</p>
+            <ul>
+                <li>
+                    <p>
+                        1- Auto load childs. In this way you have to load all data and setting <b>FullList</b> and <b>ParentIdPath</b>
+                    </p>
+                </li>
+                <li>
+                    <p>
+                        2- Manually loading childs. In this way you will load first level parents only and set <b>ParentsList</b> property
+                        and <b>OnLoadChilds</b> too to load childs of clicked parent
+                    </p>
+                </li>
+            </ul>
+
+            <h4>Auto loading</h4>
+            <div class="alert alert-dark">
+                <code class="text">
+                    <pre>
+<BlazorTag TagName="TreeView" KeepOpen="true" Properties="@("FullList=Categories;IdPath=Id;ParentIdPath=ParentID;TextPath=Name;T=Category;TValue=int")" />
+                    <BlazorTag TagName="NodeTemplate" />
+<BlazorTag TagName="TreeView" IsClosing="true" />
+
+
+
+</pre>
+                </code>
+            </div>
+
+
+            <h4>Manual loading</h4>
+            <div class="alert alert-dark">
+                <code class="text">
+                    <pre>
+<BlazorTag TagName="TreeView" KeepOpen="true" Properties="@("OnLoadChilds=@(async(id)#eq#> { return await Task.FromResult(Categories.Where(it #eq#> it.ParentID #eq##eq# id))#simc# });\nParents=Categories.Where(it#eq#> it.ParentID #eq##eq# null);\n\t\tIdPath=Id;TextPath=Name;T=Category;TValue=int")" />
+                    <BlazorTag TagName="NodeTemplate" />
+<BlazorTag TagName="TreeView" IsClosing="true" />
+</pre>
+                </code>
+            </div>
+            <TreeView FullList="Categories" ParentIdPath="ParentID" IdPath="Id" TextPath="Name" T="Category" TValue="int">
+                <NodeTemplate />
+            </TreeView>
+            <p><b>Note:</b> Dont forget <BlazorTag TagName="NodeTemplate" /> even if you will leave it empty</p>
+            <h4>Source code</h4>
+            <div class="alert alert-dark">
+                <code class="text">
+                    <pre>
+<RazorMark>@("@code{")</RazorMark>
+                    <Keyword>class </Keyword><DataType>Category</DataType> 
+    {
+                    <Keyword>public int</Keyword> Id { <Keyword>get</Keyword>; <Keyword>set</Keyword>;}
+                    <Keyword>public string</Keyword> Name { <Keyword>get</Keyword>; <Keyword>set</Keyword>;}
+                    <Keyword>public int</Keyword>? ParentID { <Keyword>get</Keyword>; <Keyword>set</Keyword>;}
+    }
+
+    List&lt;Category&gt; Categories => <span style="color:#2d652d">//Getting products data from any source</span>
+<RazorMark>}</RazorMark>
+</pre>
+                </code>
+            </div>
+        </GridCol>
+    </GridRow>
+</Container>
+<h1>@json</h1>
+@code{
+
+    bool busy = false;
+    class Category
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public int? ParentID { get; set; }
+    }
+    string json = string.Empty;
+
+    List<Category> Categories = new List<Category>();
+    List<User> Data { get; set; } = new List<User>();// => Newtonsoft.Json.JsonConvert.DeserializeObject<List<User>>(UsersJson);
+    protected override async void OnInitialized()
+    {
+        var users = await Service.MockDataAsync();// it=> it.EmpName == "Morrie Crother");
+        Data = users.ToList();
+
+        Categories.AddRange(Newtonsoft.Json.JsonConvert.DeserializeObject<List<Category>>(
+        "[{'Id':1,'Name':'Parent A','ParentID':null},{'Id':2,'Name':'Parent B','ParentID':null},{'Id':3,'Name':'Parent C','ParentID':null},{'Id':4,'Name':'Item A-1','ParentID':1},{'Id':5,'Name':'Item A-2','ParentID':1},{'Id':6,'Name':'Item A-3','ParentID':1},{'Id':7,'Name':'Item B-1','ParentID':2},{'Id':8,'Name':'Item B-2','ParentID':2},{'Id':9,'Name':'Item B-3','ParentID':2},{'Id':10,'Name':'Item C-1','ParentID':3},{'Id':11,'Name':'Item C-2','ParentID':3},{'Id':12,'Name':'Item C-3','ParentID':3},{'Id':13,'Name':'Item C-C-1','ParentID':12}]"));// GetCategories();
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      //json = Newtonsoft.Json.JsonConvert.SerializeObject(Categories);
+        StateHasChanged();
+    }
+
+    protected override async void OnAfterRender(bool firstRender)
+    {
+        if(firstRender == true)
+        {
+            //Data = (await Service.MockDataAsync()).ToList();
+            StateHasChanged();
+        }
+    }
+
+    private List<Category> GetCategories()
+    {
+        List<Category> level1 = new List<Category>()
+{
+            new Category(){Id = 1,Name="Parent A"},
+            new Category(){Id = 2,Name="Parent B"},
+            new Category(){Id = 3,Name="Parent C"}
+        };
+        List<Category> aChilds = new List<Category>()
+{
+            new Category(){Id = 4,Name="Item A-1",ParentID = 1},
+            new Category(){Id = 5,Name="Item A-2",ParentID = 1},
+            new Category(){Id = 6,Name="Item A-3",ParentID = 1}
+        };
+        List<Category> bChilds = new List<Category>()
+{
+            new Category(){Id = 7,Name="Item B-1",ParentID = 2},
+            new Category(){Id = 8,Name="Item B-2",ParentID = 2},
+            new Category(){Id = 9,Name="Item B-3",ParentID = 2}
+        };
+        List<Category> cChilds = new List<Category>()
+{
+            new Category(){Id = 10,Name="Item C-1",ParentID = 3},
+            new Category(){Id = 11,Name="Item C-2",ParentID = 3},
+            new Category(){Id = 12,Name="Item C-3",ParentID = 3}
+        };
+        List<Category> list = new List<Category>();
+        list.AddRange(level1);
+        list.AddRange(aChilds);
+        list.AddRange(bChilds);
+        list.AddRange(cChilds);
+        return list;
+    }
+
+    private async Task<IEnumerable<User>> DataTableNavigation(DataTablePageChangeArgs args)
+    {
+        busy = true;
+        StateHasChanged();
+        var list = await Service.GetUsers(args.CurrentPageIndex, args.PageSize);
+        busy = false;
+        StateHasChanged();
+        return list.ToList();
+    }
+
+    private async Task<IEnumerable<User>> FindUser(string name)
+    {
+        busy = true;
+        StateHasChanged();
+        var list = await Service.FinByNameAsync(name);
+        busy = false;
+        StateHasChanged();
+        return list.ToList();
+    }
+}

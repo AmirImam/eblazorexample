@@ -1,0 +1,28 @@
+﻿<div class="alert alert-dark">
+    <code>
+        @ChildContent
+
+    </code>
+    
+</div>
+@code {
+    [Parameter]
+    public RenderFragment ChildContent { get; set; }
+    //[Parameter]
+    //public string Code { get; set; }
+    //[Parameter]
+    //public Dictionary<IEnumerable<string>,string> KeywordsStyles { get; set; }
+
+    //string resultCode = string.Empty;
+    //protected override void OnAfterRender(bool firstRender)
+    //{
+    //    if(firstRender == true)
+    //    {
+    //        List<string> texts = Code.Split(new char[0]).ToList();
+    //        foreach (string text in texts)
+    //        {
+
+    //        }
+    //    }
+    //}
+}

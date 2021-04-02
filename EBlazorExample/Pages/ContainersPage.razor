@@ -1,0 +1,178 @@
+﻿@page "/containers"
+
+<Container IsFluid="true">
+    <GridRow>
+        <GridCol Col="12">
+            <h3>FormContainer</h3>
+            <FormContainer>
+                <HeaderContent>
+                    <h3>Header content</h3>
+                </HeaderContent>
+                <BodyContent>
+                    <GridRow>
+                        <GridCol Col="6">
+                            <TextBox Title="Text" />
+                        </GridCol>
+                        <GridCol Col="6">
+                            <DatePicker TValue="DateTime" Value="DateTime.Now" Title="Date" />
+                        </GridCol>
+
+                        <GridCol Col="6">
+                            <NumericBox T="int" Title="Number" />
+                        </GridCol>
+
+                        <GridCol Col="3">
+                            <SwitchButton Title="Switch" TValue="bool" />
+                        </GridCol>
+                    </GridRow>
+                    
+                </BodyContent>
+
+                <FooterContent>
+                    <button class="btn btn-success">Yes</button>
+                    <button class="btn btn-secondary">No</button>
+                </FooterContent>
+            </FormContainer>
+        </GridCol>
+        <GridCol Col="12">
+            <div class="alert alert-dark">
+                <code class="text">
+                    <pre>
+<BlazorTag TagName="FormContainer" KeepOpen="true" />
+    <BlazorTag TagName="HeaderContent" KeepOpen="true" />
+        @("<h3>Any content</h3>")
+    <BlazorTag TagName="HeaderContent" IsClosing="true" />
+        
+    <BlazorTag TagName="BodyContent" KeepOpen="true" />
+        @("Some content in body, elements, inputs and any other content")
+    <BlazorTag TagName="BodyContent" IsClosing="true" />
+
+    <BlazorTag TagName="FooterContent" KeepOpen="true" />
+        @("<h3>Any content</h3>")
+    <BlazorTag TagName="FooterContent" IsClosing="true" />
+<BlazorTag TagName="FormContainer" IsClosing="true" />
+</pre>
+                </code>
+            </div>
+        </GridCol>
+
+        <GridCol Col="12">
+            <h3>FormGroup</h3>
+            <p>FormGroup can contains inputs and labels, it will be like this</p>
+            <div class="alert alert-dark">
+                <code class="text">
+                    <pre>
+<BlazorTag TagName="FormGroup" Properties="Title=My input;" KeepOpen="true" />
+    @("@*Here you can set any html inputs*@")
+<BlazorTag TagName="FormGroup" IsClosing="true" />
+</pre>
+                </code>
+            </div>
+        </GridCol>
+
+        <GridCol Col="12">
+            <h3>Accordion</h3>
+            <div class="alert alert-dark">
+                <code class="text">
+                    <pre>
+<BlazorTag TagName="Accordion" KeepOpen="true" />
+    <BlazorTag TagName="AccordionCard" Properties="Title=Item 1;" KeepOpen="true" />
+        @("@*Here put any content to the item body*@")
+    <BlazorTag TagName="AccordionCard" IsClosing="true" />
+    <BlazorTag TagName="AccordionCard" Properties="Title=Item 1;" KeepOpen="true" />
+        @("@*Here put any content to the item body*@")
+    <BlazorTag TagName="AccordionCard" IsClosing="true" />
+<BlazorTag TagName="Accordion" IsClosing="true" />
+</pre>
+                </code>
+            </div>
+        </GridCol>
+        <GridCol Col="12">
+            <Accordion>
+                <AccordionCard Title="Item 1">
+                    <div style="height:250px;">Here item 1 body</div>
+                </AccordionCard>
+                <AccordionCard Title="Item 2">
+                    <div style="height:250px;">Here item 2 body</div>
+                </AccordionCard>
+                <AccordionCard Title="Item 3">
+                    <div style="height:250px;">Here item 3 body</div>
+                </AccordionCard>
+                <AccordionCard Title="Item 4">
+                    <div style="height:250px;">Here item 4 body</div>
+                </AccordionCard>
+                <AccordionCard Title="Item 5">
+                    <div style="height:250px;">Here item 5 body</div>
+                </AccordionCard>
+            </Accordion> 
+        </GridCol>
+
+        <GridCol Col="12">
+            <h3>TabContainer</h3>
+            <div class="alert alert-dark">
+                <code class="text">
+                    <pre>
+<BlazorTag TagName="TabContainer" KeepOpen="true" />
+    <BlazorTag TagName="Tab" Properties="Title=Tab 1" KeepOpen="true" />
+        @("@*Here goes tab 1 content*@")
+    <BlazorTag IsClosing="true" />
+        @("@*Here goes tab 2 content*@")
+    <BlazorTag TagName="Tab" Properties="Title=Tab 2" KeepOpen="true" />
+    <BlazorTag IsClosing="true" />
+        @("@*Here goes tab 3 content*@")
+    <BlazorTag TagName="Tab" Properties="Title=Tab 3" KeepOpen="true" />
+    <BlazorTag IsClosing="true" />
+<BlazorTag TagName="TabContainer" IsClosing="true" />
+</pre>
+                </code>
+            </div>
+            
+            <TabContainer>
+                <Tab Title="Tab 1" >
+                    <div style="width:100px;height:100px">
+                        <BusyPlaceholder IsRunning="true" />
+                    </div>
+                    <p style="height:350px;">This is tab 1 content</p>
+                </Tab>
+                <Tab Title="Tab 2" >
+                    <p style="height:350px;">This is tab 2 content</p>
+                </Tab>
+                <Tab Title="Tab 3">
+                    <p style="height:350px;">This is tab 3 content</p>
+                </Tab>
+
+                <Tab Title="Tab 4">
+                    <FormContainer Disabled="false">
+                        <HeaderContent>
+                            <h3>Header content</h3>
+                        </HeaderContent>
+                        <BodyContent>
+                            <GridRow>
+                                <GridCol Col="6">
+                                    <TextBox Title="Text" />
+                                </GridCol>
+                                <GridCol Col="6">
+                                    <DatePicker TValue="DateTime" Value="DateTime.Now" Title="Date" />
+                                </GridCol>
+
+                                <GridCol Col="6">
+                                    <NumericBox T="int" Title="Number" />
+                                </GridCol>
+
+                                <GridCol Col="3">
+                                    <SwitchButton Title="Switch" TValue="bool" />
+                                </GridCol>
+                            </GridRow>
+
+                        </BodyContent>
+
+                        <FooterContent>
+                            <button class="btn btn-success">Yes</button>
+                            <button class="btn btn-secondary">No</button>
+                        </FooterContent>
+                    </FormContainer>
+                </Tab>
+            </TabContainer>
+        </GridCol>
+    </GridRow>
+</Container>

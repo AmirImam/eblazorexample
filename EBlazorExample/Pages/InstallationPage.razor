@@ -1,0 +1,84 @@
+﻿@page "/setup"
+<Container IsFluid="true">
+    <GridRow>
+        <GridCol Col="12">
+            <h3>Installation steps</h3>
+            <ul>
+                <li>
+                    <p>
+                        <b>First step</b> is installing NuGet package <a href="https://www.nuget.org/packages/EBlazor/2.0.0" target="_blank"><kbd>EBlazor</kbd></a>
+                    </p>
+                </li>
+
+                <li>
+                    <p>
+                        <b>Second step</b> is referencing <b>css</b> file in your project
+                        in <b>_Host.cshtml</b> in server-side project, and in <b>index.html</b> in webassembly project
+
+                    </p>
+                    <div class="alert alert-dark">
+                        <p>
+                            <code>
+                                @("<link href='_content/EBlazor/css/app.css' rel='stylesheet' />")
+                            </code>
+
+                        </p>
+                    </div>
+                    <b>It is better to set it before all styles</b>
+                </li>
+
+                @*<li>
+                    <p>
+                        <b>Third step</b> is referencing <b>javascript</b> file in your project
+                        in <b>_Host.cshtml</b> in server-side project, and in <b>index.html</b> in webassembly project
+                    </p>
+                    <div class="alert alert-dark">
+                        <p>
+                            <code>
+                                @("<script src='_content/EBlazor/js/_framework.js'></script>")
+                            </code>
+                        </p>
+
+                    </div>
+                </li>*@
+
+                <li>
+                    <p>
+                        <b>Third step</b> is importing namespaces in your project at <code>_Imports.razor</code>
+                    </p>
+                    <div class="alert alert-dark">
+                        <p>
+                            <code class="text">
+                                <RazorMark>@("@")</RazorMark><Keyword>@("using")</Keyword> EBlazor<br />
+                                <RazorMark>@("@")</RazorMark><Keyword>@("using")</Keyword> EBlazor.Containers<br />
+                                <RazorMark>@("@")</RazorMark><Keyword>@("using")</Keyword> EBlazor.Elements<br />
+                                <RazorMark>@("@")</RazorMark><Keyword>@("using")</Keyword> EBlazor.Inputs<br />
+                            </code>
+                        </p>
+                    </div>
+                   
+                </li>
+                <li>
+                    <p><b>Fourth step</b> is registring EBlazor service in Startup.cs for server-side blazor, and Program.cs at webassembly blazor</p>
+                    <div class="alert alert-dark">
+                        <p>
+                            <code>
+                                services.AddEBlazorServices();
+                            </code>
+                        </p>
+                    </div>
+                   
+                </li>
+
+                <li>
+                    <p><b>Fifth step</b> is adding <BlazorTag TagName="EFrameworkStarter" /> at <b>App.razor</b></p>
+                    <p>And now you can start using EBlazor components</p>
+                </li>
+            </ul>
+        </GridCol>
+    </GridRow>
+</Container>
+
+@code {
+
+}

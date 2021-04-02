@@ -1,0 +1,44 @@
+﻿
+<FormContainer>
+    <HeaderContent>
+        <h1>Adding new appointment</h1>
+    </HeaderContent>
+
+    <BodyContent>
+        <DatePicker Title="Date" @bind-Value="appointment.Date" />
+        <TimePicker Title="Time" @bind-Value="time" />
+        <TextBox Title="Event name" @bind-Value="appointment.Title" />
+    </BodyContent>
+
+    <FooterContent>
+        <button class="btn btn-success" @onclick="@AddAppointment">Save</button>
+        <button class="btn btn-danger" @onclick="@(()=> { DialogRef.Close(); })">Close</button>
+    </FooterContent>
+</FormContainer>
+
+@code{
+    [Parameter]
+    public DateTime Date { get; set; }
+    [Parameter]
+    public Action<Appointment> OnAddAppointment { get; set; }
+    Appointment appointment = new Appointment();
+    TimeSpan time = DateTime.Now.TimeOfDay;
+    [Parameter]
+    public DialogReference DialogRef { get; set; }
+    protected override void OnAfterRender(bool firstRender)
+    {
+        if (firstRender == true)
+        {
+            appointment.Date = Date;
+            time = Date.TimeOfDay;
+            StateHasChanged();
+        }
+    }
+
+    private void AddAppointment()
+    {
+        appointment.Date = new DateTime(appointment.Date.Year, appointment.Date.Month, appointment.Date.Day);
+        appointment.Date = appointment.Date.AddTicks(time.Ticks);
+        DialogRef.Close(appointment);
+    }
+}
