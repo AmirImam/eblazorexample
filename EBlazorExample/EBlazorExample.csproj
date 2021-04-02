@@ -2,9 +2,10 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
+    <UserSecretsId>3cb1bb53-09d5-40b4-99e0-dcd820c598db</UserSecretsId>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="EBlazor" Version="2.0.0" />
+    <PackageReference Include="EBlazor" Version="2.0.0.1" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
   </ItemGroup>
   <ItemGroup>
